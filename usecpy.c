@@ -7,7 +7,6 @@
 //g++ 5.2.1 python 2.7.10 python 3.4.3+ is used on server.
 /***************************************************
  * Usage tips:
- * Python file MUST started by '#!/bin/env python2.7' or '#!/bin/env python' or '#!/bin/env python3'.
  * Cpp file MUST be single, or try cpp-joiner by @qzwlecr, or try g++ -std=c++11 --save-temps ex.cpp then upload ex.ii.
  * C++14 is not supported by FUCKed gcc-c++ provided by server.
  * 
