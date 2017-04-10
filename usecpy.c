@@ -1,19 +1,21 @@
-#define SOURCE_URL "https://tdl.recolic.net/hustc.py" //Url to code file, which's for 'bare' wget. Valid demos: https://tdl.recolic.net/hustc.cpp and hustc.py.
-#define L_PYTHON //Select the language you want.
-//#define L_CPP //Select the language you want.
+#define SOURCE_URL "https://tdl.recolic.net/hustc.cpp" //Url to code file, which's for 'bare' wget. Valid demos: https://tdl.recolic.net/hustc.cpp and hustc.py.
+#define L_CPP //Select the language you want.
+//#define L_PYTHON2 //Select the language you want.
+//#define L_PYTHON3 //Select the language you want.
 
-//g++ 5.2.1 and python 2.7 is used on server.
+
+//g++ 5.2.1 python 2.7.10 python 3.4.3+ is used on server.
 /***************************************************
  * Usage tips:
- * Python file MUST started by '#!/bin/env python2.7' or '#!/bin/env python' or '#!/bin/env python2'.
- * Cpp file MUST be single.
- * C++14 is not supported by FUCKed gnu-c++ provided by server.
- * 
- * This program have NOT been fully-tested yet.
+ * Python file MUST started by '#!/bin/env python2.7' or '#!/bin/env python' or '#!/bin/env python3'.
+ * Cpp file MUST be single, or try cpp-joiner by @qzwlecr, or try g++ -std=c++11 --save-temps ex.cpp then upload ex.ii.
+ * C++14 is not supported by FUCKed gcc-c++ provided by server.
  * 
  * by Recolic Keghart, at Mar. 7, 2017.
- * Codes below needn't be modified unless severe bugs are detected.
- * My email: admin@recolic.net / recolickeghart@gmail.com
+ * LICENSE: International CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
+ * Email: admin@recolic.net
+ * 
+ * Codes below needn't to be modified unless severe bugs are detected.
  * Have fun!
  */
 
@@ -47,11 +49,25 @@
     #else
         typedef _Bool bool;
     #endif
-    #define false (bool)0;
-    #define true (bool)1;
+    #define false ((bool)0)
+    #define true ((bool)1)
 #else
-//Disable some warnings here from cpp compilers.
+//Disable some warnings here from silly cpp compilers.
 #endif
+
+#ifdef L_PYTHON3
+    #define L_PYTHON
+    #define PY_VER 3
+#endif
+#ifdef L_PYTHON2
+    #ifdef L_PYTHON
+        #error Specified language is invalid.
+    #else
+        #define PY_VER 2
+        #define L_PYTHON
+    #endif
+#endif
+
 #ifdef L_PYTHON
     #ifdef L_CPP
         #error Specified language is invalid.
@@ -69,6 +85,8 @@
     #error Specified language is invalid.
 #endif
 #define filePostfix #LANGUAGE
+char nullStr[] = "";
+char *nullStrArr[1] = {nullStr};
 //#define SYS_BSD
 typedef int fileDescriptor;
 
@@ -79,7 +97,7 @@ bool cppProc(const char *filePath, const char *usedRandCode/*Help to simplify my
     system(compileCmd);
     char runCmd[20] = "";
     sprintf(runCmd, "/tmp/%s", usedRandCode);
-    execl(runCmd, NULL);
+    execv(runCmd, nullStrArr);
     remove(filePath);
     remove(runCmd);
     return true;
@@ -88,11 +106,16 @@ bool pyProc(const char *filePath, const char *usedRandCode/*Help to simplify my 
 {
     #ifndef SYS_BSD
         chmod(filePath, S_IXUSR | S_IRUSR | S_IWUSR);
-        execl(filePath, NULL);
+        execv(filePath, nullStrArr);
     #else
         char pyStartCmd[35] = "";
-        sprintf(pyStartCmd, "python %s", filePath);
-        execl(pyStartCmd, NULL);
+    #ifdef L_PYTHON2
+            sprintf(pyStartCmd, "python2 %s", filePath);
+    #endif
+    #ifdef L_PYTHON3
+            sprintf(pyStartCmd, "python3 %s", filePath);
+    #endif
+        execv(pyStartCmd, nullStrArr);
     #endif
     remove(filePath);
     return true;
