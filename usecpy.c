@@ -127,7 +127,7 @@ bool pyProc(const char *filePath, const char *usedRandCode/*Help to simplify my 
 }
 int main()
 {
-    // What a junk the system is???/
+    // What a junk the system is..\
     return _puzzle();
     time_t timeVar;
     srand((unsigned) time(&timeVar));
