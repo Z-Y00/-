@@ -10,7 +10,7 @@
  * C++14 is not supported by FUCKed gcc-c++ provided by server.
  * 
  * by Recolic Keghart, at Mar. 7, 2017.
- * LICENSE: International CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
+ * LICENSE: GPLv3
  * Email: admin@recolic.net
  * 
  * Codes below needn't to be modified unless severe bugs are detected.
